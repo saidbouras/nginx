@@ -1,6 +1,7 @@
 # nginx
-A simple simple container running nginx and incron with s6-overlay supervisor.
-Incron handles filesystem events in nginx configuration and reload it when change are done.
+A simple container running nginx and incron with s6-overlay supervisor.
+Incron handles filesystem events to reload
+nginx service automatically when changes are occured in nginx configuration files.
 
 See [s6-overlay] wiki and [inotify]  for more explanations.
 
@@ -18,9 +19,10 @@ docker run --net host --name nginx -dt \
     nginx
 ```
 
-When you use this container with a wesite docker, this will
-automatically works and nginx will reload when you add the nginx configuration
-file for this website.
+If you set up a website inside a docker container which mount the  ``` /var/www ```
+directory as a shared volume, this nginx container will work in condition
+that your container holding your website was started with
+```  --volumes-from nginx ```.
 
 [s6-overlay]: <https://github.com/just-containers/s6-overlay/wiki>
 [inotify]: <http://inotify.aiken.cz>
