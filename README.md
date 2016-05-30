@@ -16,7 +16,7 @@ docker run --net host --name nginx -dt \
     -v /var/www/:/var/www \
     -p 80:80 \
     -p 443:443 \
-    nginx
+    rinscy/nginx
 ```
 
 If you set up a website inside a docker container which mount the  ``` /var/www ```
