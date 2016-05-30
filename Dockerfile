@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM alpine:3.3
 MAINTAINER Saïd Bouras <said.bouras@gmail.com>
 
 ENV \
@@ -7,8 +7,8 @@ ENV \
 
 RUN set -x \
     && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx.list \
-    && apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && apt-get update
+    && su - root -c 'gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62' \
+    && apk update
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz /tmp/
 
@@ -26,8 +26,7 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
     && echo "/etc/nginx/nginx.conf IN_MODIFY /usr/sbin/nginx -s reload" >> /var/spool/incron/root
 
 # Clean
-RUN apt-get autoremove -y --purge \
-    && find . -type d -name ".git" | xargs rm -rf
+RUN find . -type d -name ".git" | xargs rm -rf
 
 # Copy configuration file and init files
 COPY ./root/ /
