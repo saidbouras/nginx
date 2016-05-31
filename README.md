@@ -17,10 +17,10 @@ docker run --net host --name nginx -dt \
     -v /var/www/:/var/www \
     -p 80:80 \
     -p 443:443 \
-    rinscy/nginx:1.1
+    rinscy/nginx:1.1.2
 ```
 
-You can choose the alpine version ``` rinscy/nginx:alpine-1.1 ``` if you want a much lighter docker image.
+You can choose the alpine version ``` rinscy/nginx:alpine-1.1.2 ``` if you want a much lighter docker image.
 
 
 If you set up a website inside a docker container which mount the  ``` /var/www ```
