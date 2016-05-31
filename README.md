@@ -5,6 +5,7 @@ nginx service automatically when changes are occured in nginx configuration file
 
 See [s6-overlay] wiki and [inotify]  for more explanations.
 
+
 ## Usage
 To put out the configuration of nginx, map the directory
 ``` /etc/nginx ``` or ``` /etc/nginx/sites-enabled ``` like that :
@@ -16,8 +17,11 @@ docker run --net host --name nginx -dt \
     -v /var/www/:/var/www \
     -p 80:80 \
     -p 443:443 \
-    rinscy/nginx
+    rinscy/nginx:1.1
 ```
+
+You can choose the alpine version ``` rinscy/nginx:alpine-1.1 ``` if you want a much lighter docker image.
+
 
 If you set up a website inside a docker container which mount the  ``` /var/www ```
 directory as a shared volume, this nginx container will work in condition
