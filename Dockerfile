@@ -2,20 +2,18 @@ FROM alpine:3.3
 MAINTAINER Saïd Bouras <said.bouras@gmail.com>
 
 ENV \
-    DEBIAN_FRONTEND=noninteractive \
     S6_OVERLAY_VERSION=1.17.1.2
 
 RUN set -x \
-    && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx.list \
-    && su - root -c 'gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62' \
-    && apk update
+    && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk --update upgrade
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz /tmp/
 
 # INSTALL NGINX and INCRON
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
-    && apt-get install -y --no-install-recommends nginx incron \
-    && rm -rf /var/lib/apt/lists/* \
+    && apk --update add nginx incron\
+    && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/s6-overlay-amd64.tar.gz \
     && echo "\ndaemon off;" >> /etc/nginx/nginx.conf \
     && chown -R nginx:nginx /var/log/nginx \
