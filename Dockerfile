@@ -6,6 +6,9 @@ ENV \
 
 RUN set -x \
     && echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    # ensure that www-data user exists
+    && addgroup -g 82 -S www-data \
+    && adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1 \
     && apk --update upgrade
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v$S6_OVERLAY_VERSION/s6-overlay-amd64.tar.gz /tmp/
